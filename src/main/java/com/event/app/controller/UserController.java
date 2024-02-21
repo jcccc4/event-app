@@ -82,15 +82,6 @@ public class UserController {
 	}
 
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event Event) {
-		Event currentEvent = eventRepository.findById(id).orElseThrow(RuntimeException::new);
-
-		currentEvent = eventRepository.save(Event);
-
-		return ResponseEntity.ok(currentEvent);
-	}
-
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteEvent(@PathVariable Long id) {
 		eventRepository.deleteById(id);
