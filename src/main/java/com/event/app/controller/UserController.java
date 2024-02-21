@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,8 +55,8 @@ public class UserController {
 
 	@GetMapping("/{id}/events")
 	public ResponseEntity<List<Event>> getEvents(@PathVariable Long id) {
-	    List<Event> userEvents = userRepository.findById(id).map(User::getEvents).orElse(Collections.emptyList());
-	    return ResponseEntity.ok(userEvents);
+		List<Event> userEvents = userRepository.findById(id).map(User::getEvents).orElse(Collections.emptyList());
+		return ResponseEntity.ok(userEvents);
 	}
 
 	@PostMapping("/{id}/events")
@@ -75,30 +75,25 @@ public class UserController {
 		return ResponseEntity.created(new URI("/Event/" + savedEvent.getId())).body(savedEvent);
 	}
 
-//    @PostMapping
-//    public ResponseEntity<User> createUser(@RequestBody User user) throws URISyntaxException {
-//        User savedUser = userRepository.save(user);
-//        return ResponseEntity.created(new URI("/User/" + savedUser.getId())).body(savedUser);
-//    }
+	@PostMapping
+	public ResponseEntity<User> createUser(@RequestBody User user) throws URISyntaxException {
+		User savedUser = userRepository.save(user);
+		return ResponseEntity.created(new URI("/User/" + savedUser.getId())).body(savedUser);
+	}
 
-//    @PostMapping("/{id}/event")
-//    public ResponseEntity<User> createEvent(@RequestBody Event event) throws URISyntaxException {
-//        User savedUser = userRepository.save(user);
-//        return ResponseEntity.created(new URI("/User/" + savedUser.getId())).body(savedUser);
-//    }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event Event) {
-//        Event currentEvent = eventRepository.findById(id).orElseThrow(RuntimeException::new);
-//        currentEvent.setUser(User.getName());
-//        currentEvent = eventRepository.save(Event);
-//
-//        return ResponseEntity.ok(currentEvent);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> deleteEvent(@PathVariable Long id) {
-//    	eventRepository.deleteById(id);
-//        return ResponseEntity.ok().build();
-//    }
+	@PutMapping("/{id}")
+	public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event Event) {
+		Event currentEvent = eventRepository.findById(id).orElseThrow(RuntimeException::new);
+
+		currentEvent = eventRepository.save(Event);
+
+		return ResponseEntity.ok(currentEvent);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteEvent(@PathVariable Long id) {
+		eventRepository.deleteById(id);
+		return ResponseEntity.ok().build();
+	}
 }
