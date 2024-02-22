@@ -1,6 +1,5 @@
 package com.event.app.entity;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.*;
